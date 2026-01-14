@@ -17,7 +17,6 @@ export default function EmployeeDashboard() {
       setLoading(false);
     }, 5000);
 
-    // cleanup
     return () => {
       clearTimeout(timer);
     };
@@ -70,7 +69,7 @@ export default function EmployeeDashboard() {
             field: 'salary',
             width: 100,
             valueFormatter: (p: ValueFormatterParams<number>) =>
-              p.value ? `$${p.value.toLocaleString()}` : '',
+              p.value ? `$${p.value}` : '',
           },
           { field: 'location', width: 130 },
         ],
