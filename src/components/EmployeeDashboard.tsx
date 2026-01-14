@@ -102,29 +102,38 @@ export default function EmployeeDashboard() {
     [showExtra]
   );
 
-  
+  // ----------------------- handling pagination mobile UI ------------------
+  const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
 
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
   return (
-    <div className="min-h-screen bg-gray-50 p-6">
+    <div className="min-h-screen bg-gray-50 p-2 md:p-6">
       <div className="max-w-7xl mx-auto bg-white rounded-xl shadow-sm p-6">
         {/* Header */}
-        <div className="flex items-center justify-between mb-6">
+        <div className="md:flex items-center justify-between mb-6">
           <div>
             <h2 className="text-2xl font-semibold text-gray-800">
               Employee Management Dashboard
             </h2>
-            <p className="text-sm text-gray-500">
+            <p className="text-sm text-gray-500 pb-4">
               Manage employees, performance & compensation
             </p>
           </div>
 
-          <div className="flex items-center gap-3">
+          <div className="flex flex-col md:flex-row md:items-center gap-3">
             <input
               type="text"
               placeholder="Search employees..."
               value={searchText}
               onChange={(e) => setSearchText(e.target.value)}
-              className="border rounded-lg px-4 py-2 text-sm w-72 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="border rounded-lg px-4 py-2 text-sm md:w-72 focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
 
             <button
@@ -143,7 +152,8 @@ export default function EmployeeDashboard() {
             columnDefs={columnDefs}
             pagination
             paginationPageSize={5}
-            paginationPageSizeSelector={[5,10, 20, 50, 100]}
+            // paginationPageSizeSelector={[5, 10, 20, 50, 100]}
+            paginationPageSizeSelector={isMobile ? false : [5, 10, 20, 50, 100]}
             quickFilterText={searchText}
             loadingOverlayComponentParams={{ loadingMessage: 'Loading...' }}
             loading={loading}
